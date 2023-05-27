@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "233003816790",
+    "project_id": "keepit-cf68b",
+    "storage_bucket": "keepit-cf68b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233003816790:android:f37a72a10bc14baabae8f7",
+        "android_client_info": {
+          "package_name": "com.example.keepit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm-3JsZI5gwNqTQqqMyaDMfAHaEwkYMPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
