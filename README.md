@@ -35,7 +35,7 @@ In this app you can:
 14 Followed the MVC architecture
 15 all files folder let you upload all files under a single folder
 16 all files already saved are shown at beginning with an option to add more files
-
+17 Ensure network connectivity for the app while testing
 
 yet to update
  12 search functionality
