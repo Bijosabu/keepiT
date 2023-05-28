@@ -41,7 +41,7 @@ class _AddLicensePageState extends State<AddLicensePage> {
     final snapshot = await uploadTask!.whenComplete(() => null);
     fileUrl = await snapshot.ref.getDownloadURL();
 
-    print(fileUrl);
+    // print(fileUrl);
 
     // ignore: use_build_context_synchronously
     showDialog(
@@ -53,7 +53,7 @@ class _AddLicensePageState extends State<AddLicensePage> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Get.to(() => const HomePage());
+                Get.to(() => HomePage());
               },
               child: const Text('OK'),
             ),

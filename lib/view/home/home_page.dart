@@ -1,13 +1,59 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:keepit/controller/routing.dart';
 import 'package:keepit/core/constants/constants.dart';
 import 'package:keepit/model/services/google_auth_services.dart';
+import 'package:keepit/view/home/search_results.dart';
 import 'package:keepit/view/widgets/main_folder.dart';
-import 'package:keepit/view/widgets/search_bar.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+import '../addFiles/add_license.dart';
+
+class HomePage extends StatefulWidget {
+  HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<String> allFileNames = [];
+  List<String> searchResults = [];
+  final TextEditingController? searchController = TextEditingController();
+  Future<List<String>> fetchFileNames() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final userId = user?.uid;
+    final path = 'users/$userId/';
+
+    final ListResult result =
+        await FirebaseStorage.instance.ref(path).listAll();
+    final List<String> fileNames = result.items.map((ref) => ref.name).toList();
+
+    return fileNames;
+  }
+
+  Future<void> fetchAllFileNames() async {
+    final fileNames = await fetchFileNames();
+    setState(() {
+      allFileNames = fileNames;
+    });
+  }
+
+  void navigateToSearchResultsPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchResults(searchResults: searchResults),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAllFileNames();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +89,34 @@ class HomePage extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               kHeight20,
-              const SearchTile(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    setState(() {
+                      searchResults = allFileNames.where((fileName) {
+                        // Perform case-insensitive search based on file names
+                        return fileName
+                            .toLowerCase()
+                            .contains(value.toLowerCase());
+                      }).toList();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search files...',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ),
+              if (searchResults.isNotEmpty)
+                ElevatedButton(
+                  onPressed: navigateToSearchResultsPage,
+                  child: Text('View Search Results'),
+                ),
               kHeight20,
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5, left: 10),

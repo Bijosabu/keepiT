@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:keepit/controller/routing.dart';
 import 'package:keepit/core/constants/constants.dart';
 import 'package:file_picker/file_picker.dart';
-
 import '../home/home_page.dart';
 
 class AddPanPage extends StatefulWidget {
@@ -41,7 +39,7 @@ class _AddPanPageState extends State<AddPanPage> {
     final snapshot = await uploadTask!.whenComplete(() => null);
     fileUrl = await snapshot.ref.getDownloadURL();
 
-    print(fileUrl);
+    // print(fileUrl);
 
     // ignore: use_build_context_synchronously
     showDialog(
@@ -53,7 +51,7 @@ class _AddPanPageState extends State<AddPanPage> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Get.to(() => const HomePage());
+                Get.to(() => HomePage());
               },
               child: const Text('OK'),
             ),

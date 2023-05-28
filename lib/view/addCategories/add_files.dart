@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:keepit/controller/routing.dart';
 import 'package:keepit/core/constants/constants.dart';
 import 'package:keepit/view/home/home_page.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AddFiles extends StatefulWidget {
   const AddFiles({super.key});
@@ -25,6 +26,16 @@ class _AddFilesState extends State<AddFiles> {
     setState(() {
       pickedFile = result!.files.first;
     });
+  }
+
+  void sendFCMMessage() async {
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+    await _firebaseMessaging.sendMessage(
+      data: {
+        'inAppMessage': 'New file added!',
+      },
+    );
   }
 
   Future upLoadFile() async {
@@ -50,7 +61,7 @@ class _AddFilesState extends State<AddFiles> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Get.to(() => const HomePage());
+                Get.to(() => HomePage());
               },
               child: const Text('OK'),
             ),
@@ -58,6 +69,7 @@ class _AddFilesState extends State<AddFiles> {
         );
       },
     );
+    sendFCMMessage();
   }
 
   @override

@@ -85,7 +85,7 @@ class _AddCategoriesState extends State<AddCategories> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: Text(
+          title: const Text(
             'All Files',
             style: TextStyle(
               color: Colors.white,

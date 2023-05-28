@@ -53,7 +53,7 @@ class _AddFilesPageState extends State<AddFilesPage> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Get.to(() => const HomePage());
+                Get.to(() => HomePage());
               },
               child: const Text('OK'),
             ),
