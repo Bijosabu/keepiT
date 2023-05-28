@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:keepit/controller/routing.dart';
 import 'package:keepit/core/constants/constants.dart';
 import 'package:keepit/model/services/google_auth_services.dart';
 import 'package:keepit/view/home/search_results.dart';
 import 'package:keepit/view/widgets/main_folder.dart';
 
-import '../addFiles/add_license.dart';
+// import '../addFiles/add_license.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
