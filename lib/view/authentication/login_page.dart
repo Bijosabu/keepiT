@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:keepit/controller/routing.dart';
 import 'package:keepit/core/constants/constants.dart';
 import 'package:keepit/model/services/google_auth_services.dart';
 import 'package:keepit/view/widgets/main_button.dart';
@@ -80,15 +81,20 @@ class LoginPage extends StatelessWidget {
                   obscureText: true,
                 ),
                 kHeight10,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          color: Colors.blue,
+                      padding: const EdgeInsets.only(right: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          RoutingPage().goToForgotPassword();
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: Colors.blue,
+                          ),
                         ),
                       ),
                     ),

@@ -16,6 +16,7 @@ class HomePage extends StatelessWidget {
     final name = email!.substring(0, email.indexOf('@')).toUpperCase();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Welcome $name',
           style: const TextStyle(
@@ -37,78 +38,87 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            kHeight20,
-            const SearchTile(),
-            kHeight20,
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 5, left: 10),
-              child: Row(
-                children: [
-                  Text(
-                    'Important files',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              kHeight20,
+              const SearchTile(),
+              kHeight20,
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 5, left: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      'Important files',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            kHeight20,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                kWidth10,
-                MainFolder(
-                    text: 'Aadhar',
+              kHeight20,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  kWidth10,
+                  MainFolder(
+                      text: 'Aadhar',
+                      onTap: () {
+                        RoutingPage().folderToAddPage();
+                      }),
+                  kWidth10,
+                  MainFolder(
+                      text: 'PAN',
+                      onTap: () {
+                        RoutingPage().addPan();
+                      }),
+                  kWidth10,
+                  MainFolder(
+                    text: 'License',
                     onTap: () {
-                      RoutingPage().folderToAddPage();
-                    }),
-                kWidth10,
-                const MainFolder(text: 'PAN'),
-                kWidth10,
-                const MainFolder(text: 'License'),
-                kWidth10,
-              ],
-            ),
-            kHeight20,
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 5, left: 10),
-              child: Row(
+                      RoutingPage().addLicense();
+                    },
+                  ),
+                  kWidth10,
+                ],
+              ),
+              kHeight20,
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 5, left: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      'Categories',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              kHeight30,
+              Row(
                 children: [
-                  Text(
-                    'Categories',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 50),
+                    child: MainFolder(
+                      text: 'All Files',
+                      onTap: () {
+                        return RoutingPage().addCategories();
+                      },
                     ),
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const MainFolder(text: 'Images'),
-                const MainFolder(text: 'Video'),
-                const MainFolder(text: 'PDF'),
-              ],
-            ),
-            kHeight30,
-            Padding(
-              padding: const EdgeInsets.only(left: 30),
-              child: Row(
-                children: [
-                  const MainFolder(text: 'Music'),
-                ],
-              ),
-            ),
-          ],
+              kHeight30,
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

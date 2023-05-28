@@ -10,14 +10,14 @@ import 'package:file_picker/file_picker.dart';
 
 import '../home/home_page.dart';
 
-class AddFilesPage extends StatefulWidget {
-  const AddFilesPage({super.key});
+class AddPanPage extends StatefulWidget {
+  const AddPanPage({super.key});
 
   @override
-  State<AddFilesPage> createState() => _AddFilesPageState();
+  State<AddPanPage> createState() => _AddPanPageState();
 }
 
-class _AddFilesPageState extends State<AddFilesPage> {
+class _AddPanPageState extends State<AddPanPage> {
   static PlatformFile? pickedFile;
   static String? fileUrl;
   UploadTask? uploadTask;
@@ -33,7 +33,7 @@ class _AddFilesPageState extends State<AddFilesPage> {
   Future upLoadFile() async {
     final user = FirebaseAuth.instance.currentUser;
     final userId = user?.uid;
-    final path = 'users/$userId/adharfile/${pickedFile!.name}';
+    final path = 'users/$userId/panfile/${pickedFile!.name}';
     final file = File(pickedFile!.path!);
     final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putFile(file);
@@ -69,7 +69,7 @@ class _AddFilesPageState extends State<AddFilesPage> {
     final user = FirebaseAuth.instance.currentUser;
     final userId = user?.uid;
     if (pickedFile != null) {
-      final path = 'users/$userId/adharfile/${pickedFile!.name}';
+      final path = 'users/$userId/panfile/${pickedFile!.name}';
       final ref = FirebaseStorage.instance.ref().child(path);
 
       await ref.delete();

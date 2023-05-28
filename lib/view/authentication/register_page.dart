@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:keepit/core/constants/constants.dart';
+import 'package:keepit/model/services/google_auth_services.dart';
+import 'package:keepit/view/authentication/login_page.dart';
 import 'package:keepit/view/widgets/main_button.dart';
 // import 'package:keepit/view/widgets/main_button.dart';
 import 'package:keepit/view/widgets/main_text_field.dart';
@@ -110,7 +112,7 @@ class RegisterPage extends StatelessWidget {
                   obscureText: true,
                 ),
                 kHeight10,
-                kHeight20,
+
                 //Sign up Button
                 GestureDetector(
                   onTap: () {
@@ -119,6 +121,21 @@ class RegisterPage extends StatelessWidget {
                   child: const MainButton(text: 'Sign up'),
                 ),
                 kHeight10,
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text(
+                    'or Sign up with',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ),
+                kHeight10,
+                GestureDetector(
+                  onTap: () => AuthService().signInWithGoogle(),
+                  child: const GoogleWIdget(),
+                ),
                 kHeight20,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
