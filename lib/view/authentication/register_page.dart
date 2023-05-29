@@ -96,7 +96,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 MainTextField(
                   controller: userNameController,
-                  hintText: 'Username',
+                  hintText: 'Email',
                   obscureText: false,
                 ),
                 kHeight20,
