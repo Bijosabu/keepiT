@@ -95,9 +95,9 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     'KEEP IT',
                     style: TextStyle(
-                        fontSize: 26,
-                        color: Colors.blue[300],
-                        fontWeight: FontWeight.bold),
+                      fontSize: 26,
+                      color: Colors.blue[700],
+                    ),
                   ),
                 ],
               ),
