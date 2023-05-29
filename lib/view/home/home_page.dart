@@ -62,32 +62,85 @@ class _HomePageState extends State<HomePage> {
     final name = email!.substring(0, email.indexOf('@')).toUpperCase();
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Welcome $name',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
-        ),
-        backgroundColor: Colors.blue,
-        actions: [
-          GestureDetector(
+        // automaticallyImplyLeading: false,
+        // title: Text(
+        //   'Welcome $name',
+        //   style: const TextStyle(
+        //     color: Colors.white,
+        //     fontSize: 20,
+        //   ),
+        // ),
+        backgroundColor: Colors.blue, foregroundColor: Colors.white,
+        // actions: [
+        //   GestureDetector(
+        //       onTap: () {
+        //         FirebaseAuth.instance.signOut();
+        //         AuthService().signOutGoogle();
+        //       },
+        //       child: const Padding(
+        //         padding: EdgeInsets.only(right: 10),
+        //         child: Icon(Icons.logout),
+        //       ))
+        // ],
+      ),
+      drawer: Drawer(
+          child: Container(
+        color: Colors.white10,
+        child: ListView(
+          children: [
+            DrawerHeader(
+                child: Center(
+              child: Row(
+                children: [
+                  Text(
+                    'KEEP IT',
+                    style: TextStyle(
+                        fontSize: 26,
+                        color: Colors.blue[300],
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            )),
+            GestureDetector(
               onTap: () {
                 FirebaseAuth.instance.signOut();
                 AuthService().signOutGoogle();
               },
-              child: const Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: Icon(Icons.logout),
-              ))
-        ],
-      ),
+              child: const ListTile(
+                leading: Icon(
+                  Icons.logout,
+                  size: 25,
+                ),
+                title: Text(
+                  'Signout',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      )),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              kHeight10,
+              Padding(
+                padding: const EdgeInsets.only(left: 12),
+                child: Text(
+                  "Welcome ${name}",
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
               kHeight20,
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -115,7 +168,7 @@ class _HomePageState extends State<HomePage> {
               if (searchResults.isNotEmpty)
                 ElevatedButton(
                   onPressed: navigateToSearchResultsPage,
-                  child: Text('View Search Results'),
+                  child: const Text('View Search Results'),
                 ),
               kHeight20,
               Padding(
