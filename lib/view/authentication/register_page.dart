@@ -133,7 +133,39 @@ class RegisterPage extends StatelessWidget {
                 ),
                 kHeight10,
                 GestureDetector(
-                  onTap: () => AuthService().signInWithGoogle(),
+                  onTap: () {
+                    final user = AuthService().signInWithGoogle();
+                    if (user != null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text(
+                              'Account exists',
+                            ),
+                            content: const Text(
+                                'An account with this email already exists. Please log in instead.'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) {
+                                        return LoginPage();
+                                      },
+                                    ));
+                                  },
+                                  child: const Text('Go back to login'))
+                            ],
+                          );
+                        },
+                      );
+                      // AuthService().signInWithGoogle();
+                      return;
+                    } else if (user == null) {
+                      AuthService().signInWithGoogle();
+                    }
+                  },
                   child: const GoogleWIdget(),
                 ),
                 kHeight20,

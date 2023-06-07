@@ -51,7 +51,7 @@ class _AddPanPageState extends State<AddPanPage> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Get.to(() => HomePage());
+                Get.to(() => const HomePage());
               },
               child: const Text('OK'),
             ),

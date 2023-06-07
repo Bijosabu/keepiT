@@ -28,15 +28,15 @@ class _AddFilesState extends State<AddFiles> {
     });
   }
 
-  void sendFCMMessage() async {
-    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  // void sendFCMMessage() async {
+  //   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
-    await _firebaseMessaging.sendMessage(
-      data: {
-        'inAppMessage': 'New file added!',
-      },
-    );
-  }
+  //   await firebaseMessaging.sendMessage(
+  //     data: {
+  //       'inAppMessage': 'New file added!',
+  //     },
+  //   );
+  // }
 
   Future upLoadFile() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -61,7 +61,7 @@ class _AddFilesState extends State<AddFiles> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Get.to(() => HomePage());
+                Get.to(() => const HomePage());
               },
               child: const Text('OK'),
             ),
@@ -69,7 +69,7 @@ class _AddFilesState extends State<AddFiles> {
         );
       },
     );
-    sendFCMMessage();
+    // sendFCMMessage();
   }
 
   @override

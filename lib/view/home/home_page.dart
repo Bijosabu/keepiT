@@ -8,18 +8,24 @@ import 'package:keepit/model/services/google_auth_services.dart';
 import 'package:keepit/view/home/search_results.dart';
 import 'package:keepit/view/widgets/main_folder.dart';
 
+import '../../core/debounce/debounce,.dart';
+
 // import '../addFiles/add_license.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  String folderNameInput = '';
+  List<String> folders = [];
   List<String> allFileNames = [];
   List<String> searchResults = [];
+  List<String> fileUrls = [];
+  final _debouncer = Debouncer(milliseconds: 1 * 1000);
   final TextEditingController? searchController = TextEditingController();
   Future<List<String>> fetchFileNames() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -31,6 +37,56 @@ class _HomePageState extends State<HomePage> {
     final List<String> fileNames = result.items.map((ref) => ref.name).toList();
 
     return fileNames;
+  }
+
+  Future<void> fetchFileUrls(String query) async {
+    final user = FirebaseAuth.instance.currentUser;
+    final userId = user?.uid;
+    final ref = FirebaseStorage.instance.ref('users/$userId/');
+    final result = await ref.listAll();
+    final filteredItems = result.items.where((item) {
+      // Match the item's name against the query (case-insensitive partial match)
+      final itemName = item.name.toLowerCase();
+      final queryLowerCase = query.toLowerCase();
+      return itemName.contains(queryLowerCase);
+    });
+
+// Get the download URLs of the filtered items
+    final urls =
+        await Future.wait(filteredItems.map((item) => item.getDownloadURL()));
+
+    // final urls =
+    //     await Future.wait(result.items.map((item) => item.getDownloadURL()));
+
+    setState(() {
+      fileUrls = urls;
+    });
+
+    if (fileUrls.isEmpty) {
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('No Results'),
+            content: const Text('No files found for the given query.'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK')),
+              ),
+            ],
+          );
+        },
+      );
+    }
+    print(fileUrls);
   }
 
   Future<void> fetchAllFileNames() async {
@@ -134,7 +190,7 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(left: 12),
                 child: Text(
-                  "Welcome ${name}",
+                  "Welcome $name",
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -147,18 +203,17 @@ class _HomePageState extends State<HomePage> {
                 child: TextField(
                   controller: searchController,
                   onChanged: (value) {
-                    setState(() {
-                      searchResults = allFileNames.where((fileName) {
-                        // Perform case-insensitive search based on file names
-                        return fileName
-                            .toLowerCase()
-                            .contains(value.toLowerCase());
-                      }).toList();
+                    _debouncer.run(() {
+                      fetchFileUrls(value);
                     });
                   },
                   decoration: InputDecoration(
+                    // suffixIcon: GestureDetector(
+                    //     onTap: () {}, child: Icon(Icons.get_app)),
                     hintText: 'Search files...',
-                    prefixIcon: const Icon(Icons.search),
+                    prefixIcon: const Icon(
+                      Icons.search,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -228,7 +283,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              kHeight30,
+              kHeight10,
               Row(
                 children: [
                   Padding(
@@ -243,15 +298,70 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               kHeight30,
+              SingleChildScrollView(
+                child: Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      return RoutingPage().addCategories();
+                    },
+                    onLongPress: () {},
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: folders.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                      ),
+                      itemBuilder: (context, index) {
+                        return MainFolder(text: folders[index]);
+                      },
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Create folder'),
+                  content: TextFormField(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    onChanged: (value) {
+                      setState(() {
+                        folderNameInput = value;
+                      });
+                    },
+                  ),
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () {
+                        createNewFolder(folderNameInput);
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Create'),
+                    )
+                  ],
+                );
+              },
+            );
+          },
           child: const Icon(
             Icons.add,
           )),
     );
+  }
+
+  void createNewFolder(String fileName) {
+    setState(() {
+      folders.add(fileName);
+    });
   }
 }

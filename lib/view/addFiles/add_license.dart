@@ -53,7 +53,7 @@ class _AddLicensePageState extends State<AddLicensePage> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Get.to(() => HomePage());
+                Get.to(() => const HomePage());
               },
               child: const Text('OK'),
             ),

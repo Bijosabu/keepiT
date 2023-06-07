@@ -25,16 +25,16 @@ class RoutingPage {
   }
 
   void addCategories() {
-    Get.to(() => AddCategories());
+    Get.to(() => const AddCategories());
   }
 
   void addAllFiles() {
-    Get.to(() => AddFiles());
+    Get.to(() => const AddFiles());
   }
 
   void goToForgotPassword() {
     Get.to(
-      () => ForgotPassword(),
+      () => const ForgotPassword(),
     );
   }
 }

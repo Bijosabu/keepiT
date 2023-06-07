@@ -2,6 +2,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:keepit/controller/add_all_files_controller.dart';
 import 'package:keepit/controller/routing.dart';
 
 class AddCategories extends StatefulWidget {
@@ -14,6 +16,7 @@ class AddCategories extends StatefulWidget {
 }
 
 class _AddCategoriesState extends State<AddCategories> {
+  final addFileController = Get.put(AddFileController());
   List<String> fileUrls = [];
 
   Future<void> fetchFileUrls() async {
@@ -59,13 +62,16 @@ class _AddCategoriesState extends State<AddCategories> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    fetchFileUrls();
-  }
+  // void initState() {
+  //   super.initState();
+  //   fetchFileUrls();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      addFileController.fetchFileUrls();
+    });
     if (fileUrls.isEmpty) {
       return Scaffold(
         body: const Center(
@@ -95,29 +101,31 @@ class _AddCategoriesState extends State<AddCategories> {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ListView.separated(
-              itemCount: fileUrls.length,
-              separatorBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    color: Colors.blue[200],
-                    height: 2,
-                  ),
-                );
-              },
-              itemBuilder: (context, index) {
-                final imageUrl = fileUrls[index];
-                return ListTile(
-                  leading: Image.network(imageUrl),
-                  trailing: GestureDetector(
-                      onTap: () {
-                        deleteFile(index);
-                      },
-                      child: const Icon(Icons.delete)),
-                );
-              },
-            ),
+            child: GetX<AddFileController>(builder: (controller) {
+              return ListView.separated(
+                itemCount: controller.fileUrls.length,
+                separatorBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      color: Colors.blue[200],
+                      height: 2,
+                    ),
+                  );
+                },
+                itemBuilder: (context, index) {
+                  final imageUrl = controller.fileUrls[index];
+                  return ListTile(
+                    leading: Image.network(imageUrl),
+                    trailing: GestureDetector(
+                        onTap: () {
+                          deleteFile(index);
+                        },
+                        child: const Icon(Icons.delete)),
+                  );
+                },
+              );
+            }),
           ),
         ),
         floatingActionButton: FloatingActionButton(
