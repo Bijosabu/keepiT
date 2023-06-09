@@ -298,27 +298,27 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               kHeight30,
-              SingleChildScrollView(
-                child: Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      return RoutingPage().addCategories();
-                    },
-                    onLongPress: () {},
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: folders.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                      ),
-                      itemBuilder: (context, index) {
-                        return MainFolder(text: folders[index]);
-                      },
-                    ),
-                  ),
-                ),
-              )
+              // SingleChildScrollView(
+              //   child: Expanded(
+              //     child: GestureDetector(
+              //       onTap: () {
+              //         return RoutingPage().addCategories();
+              //       },
+              //       onLongPress: () {},
+              //       child: GridView.builder(
+              //         shrinkWrap: true,
+              //         itemCount: folders.length,
+              //         gridDelegate:
+              //             const SliverGridDelegateWithFixedCrossAxisCount(
+              //           crossAxisCount: 3,
+              //         ),
+              //         itemBuilder: (context, index) {
+              //           return MainFolder(text: folders[index]);
+              //         },
+              //       ),
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

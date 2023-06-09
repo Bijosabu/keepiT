@@ -25,7 +25,7 @@ class RoutingPage {
   }
 
   void addCategories() {
-    Get.to(() => const AddCategories());
+    Get.to(() => AddCategories());
   }
 
   void addAllFiles() {

@@ -6,74 +6,25 @@ import 'package:get/get.dart';
 import 'package:keepit/controller/add_all_files_controller.dart';
 import 'package:keepit/controller/routing.dart';
 
-class AddCategories extends StatefulWidget {
-  const AddCategories({
+class AddCategories extends StatelessWidget {
+  AddCategories({
     super.key,
   });
 
-  @override
-  State<AddCategories> createState() => _AddCategoriesState();
-}
-
-class _AddCategoriesState extends State<AddCategories> {
   final addFileController = Get.put(AddFileController());
-  List<String> fileUrls = [];
 
-  Future<void> fetchFileUrls() async {
-    final user = FirebaseAuth.instance.currentUser;
-    final userId = user?.uid;
-    final ref = FirebaseStorage.instance.ref('users/$userId/allfiles');
-    final result = await ref.listAll();
-
-    final urls =
-        await Future.wait(result.items.map((item) => item.getDownloadURL()));
-
-    setState(() {
-      fileUrls = urls;
-    });
-  }
-
-  Future<void> deleteFile(int index) async {
-    final ref = FirebaseStorage.instance.refFromURL(fileUrls[index]);
-    await ref.delete();
-
-    setState(() {
-      fileUrls.removeAt(index);
-    });
-
-    // ignore: use_build_context_synchronously
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('File Deleted'),
-          content: const Text('The file was deleted successfully.'),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  @override
-  // void initState() {
-  //   super.initState();
-  //   fetchFileUrls();
-  // }
-
+  // List<String> fileUrls = [];
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      addFileController.fetchFileUrls();
-    });
-    if (fileUrls.isEmpty) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   addFileController.fetchFileUrls();
+    //   await Future.delayed(const Duration(seconds: 2));
+    // });
+    if (addFileController.fileUrls.isEmpty) {
       return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+        ),
         body: const Center(
           child: Text(
             'Add Files to show in this page',
@@ -119,7 +70,7 @@ class _AddCategoriesState extends State<AddCategories> {
                     leading: Image.network(imageUrl),
                     trailing: GestureDetector(
                         onTap: () {
-                          deleteFile(index);
+                          controller.deleteFile(index, context);
                         },
                         child: const Icon(Icons.delete)),
                   );
