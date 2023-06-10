@@ -28,7 +28,7 @@ class ShoppingPage extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 30),
                           child: Card(
                             color: Colors.grey[200],
-                            child: Container(
+                            child: SizedBox(
                               height: 80,
                               child: ListTile(
                                 leading: Padding(

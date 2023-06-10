@@ -8,9 +8,9 @@ import 'package:keepit/view/authentication/forgot_password.dart';
 import '../view/addFiles/add_files_page.dart';
 
 class RoutingPage {
-  void folderToAddPage() {
-    Get.to(() => const AddFilesPage());
-  }
+  // void folderToAddPage() {
+  //   Get.to(() => AddFilesPage());
+  // }
 
   AddPageToFolder() {
     Get.back();

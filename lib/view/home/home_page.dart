@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // import 'package:get/get.dart';
 import 'package:keepit/controller/routing.dart';
 import 'package:keepit/core/constants/constants.dart';
 import 'package:keepit/model/services/google_auth_services.dart';
+import 'package:keepit/view/addFiles/add_files_page.dart';
 import 'package:keepit/view/home/search_results.dart';
 import 'package:keepit/view/widgets/main_folder.dart';
 
@@ -249,19 +251,25 @@ class _HomePageState extends State<HomePage> {
                   MainFolder(
                       text: 'Aadhar',
                       onTap: () {
-                        RoutingPage().folderToAddPage();
+                        Get.to(() => AddFilesPage(
+                              mainFileName: 'adharfile',
+                            ));
                       }),
                   kWidth10,
                   MainFolder(
                       text: 'PAN',
                       onTap: () {
-                        RoutingPage().addPan();
+                        Get.to(() => AddFilesPage(
+                              mainFileName: 'panfile',
+                            ));
                       }),
                   kWidth10,
                   MainFolder(
                     text: 'License',
                     onTap: () {
-                      RoutingPage().addLicense();
+                      Get.to(() => AddFilesPage(
+                            mainFileName: 'licensefile',
+                          ));
                     },
                   ),
                   kWidth10,
