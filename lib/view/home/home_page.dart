@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:keepit/controller/routing.dart';
 import 'package:keepit/core/constants/constants.dart';
 import 'package:keepit/model/services/google_auth_services.dart';
-import 'package:keepit/view/addFiles/add_files_page.dart';
+import 'package:keepit/view/mainFiles/main_files_page.dart';
 import 'package:keepit/view/home/search_results.dart';
 import 'package:keepit/view/widgets/main_folder.dart';
 
